@@ -143,49 +143,56 @@ class MyApp extends StatelessWidget {
                     end: Alignment.bottomLeft,
                     colors: [Colors.orange[800], Colors.pink[900]])),
             height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FutureBuilder(
-                          future: workoutFuture,
-                          builder: (context, AsyncSnapshot<Map> snapshot) {
-                            if (snapshot.hasData) {
-                              var workoutData = snapshot.data;
-                              List<Widget> workoutCards = [];
-                              workoutData.forEach((key, value) {
-                                var workoutCard = WorkoutCard(
-                                  value['num_workouts'],
-                                  value['miles_ridden'],
-                                  value['minutes_ridden'],
-                                  value['calories_burned'],
-                                  value['average_speed'],
-                                  key,
-                                );
-                                workoutCards.add(workoutCard);
-                              });
-                              workoutCards.add(Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 20)));
-                              return SingleChildScrollView(
-                                child: Column(
-                                  children: workoutCards,
-                                ),
-                              );
-                            }
-                            if (snapshot.hasError) {
-                              return Text('poop');
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder(
+                future: workoutFuture,
+                builder: (context, AsyncSnapshot<Map> snapshot) {
+                  if (snapshot.hasData) {
+                    var workoutData = snapshot.data;
+                    List<Widget> workoutCards = [];
+                    workoutData.forEach((key, value) {
+                      var workoutCard = WorkoutCard(
+                        value['num_workouts'],
+                        value['miles_ridden'],
+                        value['minutes_ridden'],
+                        value['calories_burned'],
+                        value['average_speed'],
+                        key,
+                      );
+                      workoutCards.add(workoutCard);
+                    });
+                    workoutCards.add(
+                        Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)));
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: workoutCards,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text('ERROR!ERROR!BEEP!BOOP!');
+                  } else {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.amberAccent),
+                          )
+                        ]);
+                  }
+                }),
           ),
         ),
       ),
