@@ -1,6 +1,5 @@
 import 'package:googleapis/bigquery/v2.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'dart:convert';
 
 // BigQuery Dart library: https://github.com/dart-lang/googleapis/blob/master/generated/googleapis/lib/bigquery/v2.dart
 
@@ -29,7 +28,8 @@ const TODAY_SQL = '''
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
     FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(output)) AS jiggawatts,
+    FLOOR(SUM(calories)) AS calories_burned,
+    FLOOR(AVG(speed)) AS average_speed,
   FROM 
     nested_query
   WHERE 
@@ -49,7 +49,8 @@ const YESTERDAY_SQL = '''
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
     FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(output)) AS jiggawatts,
+    FLOOR(SUM(calories)) AS calories_burned,
+    FLOOR(AVG(speed)) AS average_speed,
   FROM 
     nested_query
   WHERE 
@@ -69,7 +70,8 @@ const THIS_MONTH_SQL = '''
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
     FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(output)) AS jiggawatts,
+    FLOOR(SUM(calories)) AS calories_burned,
+    FLOOR(AVG(speed)) AS average_speed,
   FROM 
     nested_query
   WHERE 
@@ -89,7 +91,8 @@ const LAST_MONTH_SQL = '''
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
     FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(output)) AS jiggawatts,
+    FLOOR(SUM(calories)) AS calories_burned,
+    FLOOR(AVG(speed)) AS average_speed,
   FROM 
     nested_query
   WHERE 
@@ -109,7 +112,8 @@ const THIS_YEAR_SQL = '''
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
     FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(output)) AS jiggawatts,
+    FLOOR(SUM(calories)) AS calories_burned,
+    FLOOR(AVG(speed)) AS average_speed,
   FROM 
     nested_query
   WHERE 
@@ -134,7 +138,7 @@ Map formatWorkoutData(schemaFields, rowData) {
   return formattedWorkout;
 }
 
-getWorkoutData() async {
+Future<Map<String, Map>> getWorkoutData() async {
   Map<String, Map> workoutData = {};
   await clientViaServiceAccount(serviceAccountCredentials, _SCOPES)
       .then((httpClient) async {
@@ -151,7 +155,6 @@ getWorkoutData() async {
           formatWorkoutData(queryResults.schema.fields, summaryRow);
       workoutData[element.key] = formattedSummary;
     });
-
-    return workoutData;
   });
+  return workoutData;
 }
