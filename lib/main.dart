@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'bigquery.dart';
 
@@ -11,13 +10,22 @@ class WorkoutCard extends StatelessWidget {
   var minutes;
   var calories;
   var speed;
+  var cardType;
+  Map<String, String> cardTypes = {
+    'today': "Today's Data",
+    "yesterday": "Yesterday's Data",
+    "this_month": "This Month's Data",
+    "last_month": "Last Month's Data",
+    "this_year": "This Year's Data",
+  };
 
-  WorkoutCard(numWorkouts, milesRidden, minutes, calories, speed) {
+  WorkoutCard(numWorkouts, milesRidden, minutes, calories, speed, cardType) {
     this.numWorkouts = numWorkouts;
     this.milesRidden = milesRidden;
     this.minutes = minutes;
     this.calories = calories;
     this.speed = speed;
+    this.cardType = cardTypes[cardType];
   }
 
   @override
@@ -39,7 +47,7 @@ class WorkoutCard extends StatelessWidget {
                   children: [
                     Padding(
                         padding: EdgeInsets.fromLTRB(15, 20, 10, 20),
-                        child: Text("Today's Data",
+                        child: Text(this.cardType,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -127,7 +135,7 @@ class MyApp extends StatelessWidget {
           title: Text('Workout Dashboard'),
           backgroundColor: Colors.grey[850],
         ),
-        body: SingleChildScrollView(
+        body: Center(
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -135,36 +143,48 @@ class MyApp extends StatelessWidget {
                     end: Alignment.bottomLeft,
                     colors: [Colors.orange[800], Colors.pink[900]])),
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FutureBuilder(
-                        future: workoutFuture,
-                        builder: (context, AsyncSnapshot<Map> snapshot) {
-                          if (snapshot.hasData) {
-                            var workoutData = snapshot.data;
-                            print(workoutData['today']);
-                            print(workoutData['today']['num_workouts']);
-                            return WorkoutCard(
-                              workoutData['today']['num_workouts'],
-                              workoutData['today']['miles_ridden'],
-                              workoutData['today']['minutes_ridden'],
-                              workoutData['today']['calories_burned'],
-                              workoutData['today']['average_speed'],
-                            );
-                          }
-                          if (snapshot.hasError) {
-                            return Text('poop');
-                          } else {
-                            return CircularProgressIndicator();
-                          }
-                        }),
-                  ],
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FutureBuilder(
+                          future: workoutFuture,
+                          builder: (context, AsyncSnapshot<Map> snapshot) {
+                            if (snapshot.hasData) {
+                              var workoutData = snapshot.data;
+                              List<Widget> workoutCards = [];
+                              workoutData.forEach((key, value) {
+                                var workoutCard = WorkoutCard(
+                                  value['num_workouts'],
+                                  value['miles_ridden'],
+                                  value['minutes_ridden'],
+                                  value['calories_burned'],
+                                  value['average_speed'],
+                                  key,
+                                );
+                                workoutCards.add(workoutCard);
+                              });
+                              workoutCards.add(Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 20)));
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: workoutCards,
+                                ),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Text('poop');
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          }),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
