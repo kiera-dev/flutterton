@@ -1,14 +1,15 @@
 import 'package:googleapis/bigquery/v2.dart';
 import 'package:googleapis_auth/auth_io.dart';
+import 'dart:convert';
 
 // BigQuery Dart library: https://github.com/dart-lang/googleapis/blob/master/generated/googleapis/lib/bigquery/v2.dart
 
-// Pass your service account credentials via GOOGLE_APPLICATION_CREDENTIALS
+// For local development, pass your service account credentials via GOOGLE_APPLICATION_CREDENTIALS
 //    export FLUTTERTON_KEY=`tr -d '\n' < $GOOGLE_APPLICATION_CREDENTIALS`
 //    flutter run -d chrome --dart-define=key=$FLUTTERTON_KEY
-const serviceAccountJson = String.fromEnvironment('key');
-final serviceAccountCredentials =
-    new ServiceAccountCredentials.fromJson(serviceAccountJson);
+
+// Populate this with your service account key when building releases.
+var serviceAccountJson = '''''';
 
 const _SCOPES = const [
   'https://www.googleapis.com/auth/userinfo.profile',
@@ -140,6 +141,14 @@ Map formatWorkoutData(schemaFields, rowData) {
 
 Future<Map<String, Map>> getWorkoutData() async {
   Map<String, Map> workoutData = {};
+  if (serviceAccountJson.isEmpty) {
+    const serviceAccountKey = String.fromEnvironment('key');
+    serviceAccountJson = serviceAccountKey;
+  }
+
+  var serviceAccountCredentials =
+      new ServiceAccountCredentials.fromJson(serviceAccountJson);
+
   await clientViaServiceAccount(serviceAccountCredentials, _SCOPES)
       .then((httpClient) async {
     var bigqueryClient = new BigqueryApi(httpClient);
