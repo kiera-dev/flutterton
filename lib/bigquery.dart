@@ -1,15 +1,14 @@
 import 'package:googleapis/bigquery/v2.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'dart:convert';
 
 // BigQuery Dart library: https://github.com/dart-lang/googleapis/blob/master/generated/googleapis/lib/bigquery/v2.dart
 
 // For local development, pass your service account credentials via GOOGLE_APPLICATION_CREDENTIALS
-//    export FLUTTERTON_KEY=`tr -d '\n' < $GOOGLE_APPLICATION_CREDENTIALS`
+//    export FLUTTERTON_KEY=`tr -d '' < $GOOGLE_APPLICATION_CREDENTIALS`
 //    flutter run -d chrome --dart-define=key=$FLUTTERTON_KEY
 
 // Populate this with your service account key when building releases.
-var serviceAccountJson = '''''';
+var serviceAccountJson = r'''''';
 
 const _SCOPES = const [
   'https://www.googleapis.com/auth/userinfo.profile',
