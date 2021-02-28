@@ -36,85 +36,103 @@ class WorkoutCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(0),
         child: Container(
-          constraints: BoxConstraints(minHeight: 150, minWidth: 250),
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(15, 20, 10, 20),
-                        child: Text(this.cardType,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            )))
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.directions_bike_outlined,
-                              color: Colors.black),
-                          Text('Distance:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(this.milesRidden.toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
+          width: MediaQuery.of(context).size.width - 40,
+          constraints: BoxConstraints(maxWidth: 650),
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(15, 20, 10, 20),
+                          child: Text(this.cardType,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              )))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.directions_bike_outlined,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                            Text('Distance:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                )),
+                            Text(this.milesRidden.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.query_builder_outlined,
-                              color: Colors.black),
-                          Text('Time:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(this.minutes.toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.query_builder_outlined,
+                                size: 30, color: Colors.black),
+                            Text('Time:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(this.minutes.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.speed_outlined, color: Colors.black),
-                          Text('Average Speed:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(this.speed.toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.speed_outlined,
+                                color: Colors.black, size: 30),
+                            Text('Avg Speed:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(this.speed.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.local_fire_department,
-                              color: Colors.black),
-                          Text('Calories Burned:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(this.calories.toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.local_fire_department,
+                                color: Colors.black, size: 30),
+                            Text('Cals Burned:',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(this.calories.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -166,17 +184,7 @@ class MyApp extends StatelessWidget {
                     return SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: workoutCards,
-                              )
-                            ],
-                          ),
-                        ],
+                        children: workoutCards,
                       ),
                     );
                   }
