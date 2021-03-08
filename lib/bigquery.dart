@@ -8,7 +8,8 @@ import 'package:googleapis_auth/auth_io.dart';
 //    flutter run -d chrome --dart-define=key=$FLUTTERTON_KEY
 
 // Populate this with your service account key when building releases.
-var serviceAccountJson = r'''''';
+var serviceAccountJson = r'''   
+''';
 
 const _SCOPES = const [
   'https://www.googleapis.com/auth/userinfo.profile',
@@ -18,10 +19,10 @@ const _SCOPES = const [
 const TODAY_SQL = '''
   SELECT 
     COUNT(*) AS num_workouts,
-    FLOOR(SUM(distance)) AS miles_ridden,
-    FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(calories)) AS calories_burned,
-    FLOOR(AVG(speed)) AS average_speed,
+    ROUND(SUM(distance),2) AS miles_ridden,
+    ROUND(SUM(duration),2) AS minutes_ridden,
+    ROUND(SUM(calories),2) AS calories_burned,
+    ROUND(AVG(speed),2) AS average_speed,
   FROM 
     `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
@@ -31,10 +32,10 @@ const TODAY_SQL = '''
 const YESTERDAY_SQL = '''
   SELECT 
     COUNT(*) AS num_workouts,
-    FLOOR(SUM(distance)) AS miles_ridden,
-    FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(calories)) AS calories_burned,
-    FLOOR(AVG(speed)) AS average_speed,
+    ROUND(SUM(distance),2) AS miles_ridden,
+    ROUND(SUM(duration),2) AS minutes_ridden,
+    ROUND(SUM(calories),2) AS calories_burned,
+    ROUND(AVG(speed),2) AS average_speed,
   FROM 
     `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
@@ -44,10 +45,10 @@ const YESTERDAY_SQL = '''
 const THIS_MONTH_SQL = '''
   SELECT 
     COUNT(*) AS num_workouts,
-    FLOOR(SUM(distance)) AS miles_ridden,
-    FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(calories)) AS calories_burned,
-    FLOOR(AVG(speed)) AS average_speed,
+    ROUND(SUM(distance),2) AS miles_ridden,
+    ROUND(SUM(duration),2) AS minutes_ridden,
+    ROUND(SUM(calories),2) AS calories_burned,
+    Round(AVG(speed),2) AS average_speed,
   FROM 
     `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
@@ -57,10 +58,10 @@ const THIS_MONTH_SQL = '''
 const LAST_MONTH_SQL = '''
   SELECT 
     COUNT(*) AS num_workouts,
-    FLOOR(SUM(distance)) AS miles_ridden,
-    FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(calories)) AS calories_burned,
-    FLOOR(AVG(speed)) AS average_speed,
+    ROUND(SUM(distance),2) AS miles_ridden,
+    ROUND(SUM(duration),2) AS minutes_ridden,
+    ROUND(SUM(calories),2) AS calories_burned,
+    ROUND(AVG(speed),2) AS average_speed,
   FROM 
     `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
@@ -70,10 +71,10 @@ const LAST_MONTH_SQL = '''
 const THIS_YEAR_SQL = '''
   SELECT 
     COUNT(*) AS num_workouts,
-    FLOOR(SUM(distance)) AS miles_ridden,
-    FLOOR(SUM(duration)) AS minutes_ridden,
-    FLOOR(SUM(calories)) AS calories_burned,
-    FLOOR(AVG(speed)) AS average_speed,
+    ROUND(SUM(distance),2) AS miles_ridden,
+    ROUND(SUM(duration),2) AS minutes_ridden,
+    ROUND(SUM(calories),2) AS calories_burned,
+    ROUND(AVG(speed),2) AS average_speed,
   FROM 
     `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
