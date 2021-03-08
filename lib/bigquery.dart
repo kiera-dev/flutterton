@@ -16,14 +16,6 @@ const _SCOPES = const [
 ];
 
 const TODAY_SQL = '''
-  WITH nested_query AS (
-    SELECT
-      *,
-      DATETIME(timestamp) AS date_time
-    FROM 
-      `peloton-dashboard.peloton.workouts_pretty`
-  )
-
   SELECT 
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
@@ -31,20 +23,12 @@ const TODAY_SQL = '''
     FLOOR(SUM(calories)) AS calories_burned,
     FLOOR(AVG(speed)) AS average_speed,
   FROM 
-    nested_query
+    `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
-    DATETIME_DIFF(CURRENT_DATE(), date_time, DAY) = 0;
+    DATETIME_DIFF(CURRENT_DATETIME("America/Los_Angeles"), date_time, DAY) = 0;
 ''';
 
 const YESTERDAY_SQL = '''
-  WITH nested_query AS (
-    SELECT
-      *,
-      DATETIME(timestamp) AS date_time
-    FROM 
-      `peloton-dashboard.peloton.workouts_pretty`
-  )
-
   SELECT 
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
@@ -52,20 +36,12 @@ const YESTERDAY_SQL = '''
     FLOOR(SUM(calories)) AS calories_burned,
     FLOOR(AVG(speed)) AS average_speed,
   FROM 
-    nested_query
+    `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
-    DATETIME_DIFF(CURRENT_DATE(), date_time, DAY) = 1;
+    DATETIME_DIFF(CURRENT_DATETIME("America/Los_Angeles"), date_time, DAY) = 1;
 ''';
 
 const THIS_MONTH_SQL = '''
-  WITH nested_query AS (
-    SELECT
-      *,
-      DATETIME(timestamp) AS date_time
-    FROM 
-      `peloton-dashboard.peloton.workouts_pretty`
-  )
-
   SELECT 
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
@@ -73,20 +49,12 @@ const THIS_MONTH_SQL = '''
     FLOOR(SUM(calories)) AS calories_burned,
     FLOOR(AVG(speed)) AS average_speed,
   FROM 
-    nested_query
+    `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
-    DATETIME_DIFF(CURRENT_DATE(), date_time, MONTH) = 0;
+    DATETIME_DIFF(CURRENT_DATETIME("America/Los_Angeles"), date_time, MONTH) = 0;
 ''';
 
 const LAST_MONTH_SQL = '''
-  WITH nested_query AS (
-    SELECT
-      *,
-      DATETIME(timestamp) AS date_time
-    FROM 
-      `peloton-dashboard.peloton.workouts_pretty`
-  )
-
   SELECT 
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
@@ -94,20 +62,12 @@ const LAST_MONTH_SQL = '''
     FLOOR(SUM(calories)) AS calories_burned,
     FLOOR(AVG(speed)) AS average_speed,
   FROM 
-    nested_query
+    `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
-    DATETIME_DIFF(CURRENT_DATE(), date_time, MONTH) = 1;
+    DATETIME_DIFF(CURRENT_DATETIME("America/Los_Angeles"), date_time, MONTH) = 1;
 ''';
 
 const THIS_YEAR_SQL = '''
-  WITH nested_query AS (
-    SELECT
-      *,
-      DATETIME(timestamp) AS date_time
-    FROM 
-      `peloton-dashboard.peloton.workouts_pretty`
-  )
-
   SELECT 
     COUNT(*) AS num_workouts,
     FLOOR(SUM(distance)) AS miles_ridden,
@@ -115,9 +75,9 @@ const THIS_YEAR_SQL = '''
     FLOOR(SUM(calories)) AS calories_burned,
     FLOOR(AVG(speed)) AS average_speed,
   FROM 
-    nested_query
+    `peloton-dashboard.peloton.workouts_pretty`
   WHERE 
-    DATETIME_DIFF(CURRENT_DATE(), date_time, YEAR) = 0;
+    DATETIME_DIFF(CURRENT_DATETIME("America/Los_Angeles"), date_time, YEAR) = 0;
 ''';
 
 final workoutQueries = <String, String>{
